@@ -1,0 +1,243 @@
+String Formatting
+    'hello {}'.format(String greeting)
+    shoves greeting into {}
+
+Arguments
+    positional arguments = required arguments
+    key word arguments = arguments with default value
+
+    def myFunction(requiredArg, kwArg = 'hello')
+
+    *args & **kwargs
+        allows for arbitrary number of positional args (*args) and key word args (**kwargs)
+
+        '''
+        def student_info(*args, **kwargs)
+            print(args)
+            print(kwargs)
+
+        studet_info('James', 'Potter', age = 51, child = 'Harry')
+        '''
+
+        prints:
+
+        '''
+        ('James', 'Potter')
+        {age:51, child:'Harry'}        # tuple of positional args and dictionary of key word args
+        '''
+
+    "unpack" operator (*list, **dictionary)
+
+        '''
+        name = [James, Potter]
+        info = {age:51, child:'Harry'}
+
+        def student_info(*args, **kwargs)
+            print(args)
+            print(kwargs)
+
+        student_info(*name, **info)         # * unpacks list into positional args and dictionary into key word args
+        '''
+
+
+Documentation
+    docstrings
+        right under function definition, text enclosed in triple quotations used to explain function
+
+        eg.
+
+        def student_info(*args, **kwargs)
+            """prints out all positional and key word arguments passed to this function"""
+            print(args)
+            print(kwargs)
+
+Importing
+
+    when importing a module, python automatically runs the module script
+    while also defining variables and functions declared in the script
+
+    import [module name]
+
+    import [module name] as [new name]
+        creates a new reference to module
+        used to make module names shorter/prettier
+
+    from [module name] import [something]
+        still runs the module script but now [something] can be referenced directly
+        does not require [modulename].[something]
+        
+    from [module name] import *
+        import all
+        BAD
+        don't know where modules came from with multiple import *'s
+        
+    
+    where does python find imported modules?
+        sys.path
+            list of filepaths of where to look for python modules
+            can add/remove entries from this list to control where python looks
+            
+            consists of:
+                [current directory][python path][std library][
+     
+Cool Shit
+    [module name].__file__
+        fetches filepath of given module
+    dir([module])
+        returns list of all method names available to module/variable
+    help([module])
+        returns documentation on given module
+        can also pass in individual methods
+        eg. help(str.lower)
+    type([variable])
+        returns the class of variable
+        
+        
+variables
+    convention = lowercase separated by underscores
+        my_message
+        fuck_you_artie
+        
+    Strings
+        string over multiple lines
+        """ hello
+        world """
+        
+        f strings (3.6 or newer)
+            greeting = 'hello'
+            name = 'Andrew'
+            message = f'{greeting}, {name.upper}'
+            
+            # shoves variables into string
+            # can have logic inside {} placeholders
+            
+    every python variable assigned id
+        accessed by id([variable])
+        'is' operator checks to see if id is the same
+            
+Lists
+    nums = [1,2,3,4]
+    nums[-1]
+        # negative indices start from end of list
+        # thus -1 grabs last entry
+        
+    nums.extend([iterable])
+        # combines two lists together
+        
+    nums.sort()     # edits list in place
+    sorted(nums)    # returns copy of sorted list
+    
+    for index, number in enumerate(nums)    # grabs index and value of each entry
+        print(index, course)    
+    
+    tuple vs list
+        tuple = immutable
+        list = mutable
+        
+    Sets
+        defined like nums = {1,4,1,2,3,4,1,5,6}
+        unordered and no duplicates
+        
+        used to:
+            remove duplicates
+            find intersections, differences, union
+            optimized to see if something exists (faster than lists/tuples)
+
+        to create empty set:
+            empty_set = set()
+            
+dictionaries
+    key value pairs
+    dict.get([key])                     # returns None when key doesnt exist
+    dict.get([key], 'default value')    # returns given value when key doesnt exist
+        
+    dict.update([update dictionary])
+        makes all changes contained in update dictionary
+        
+    del dict['key']     # deletes key value pair
+    dict.pop('key')     # deletes and returns key value
+        
+    dict.values()   # returns list of values
+    dict.keys()     # returns list of keys
+    dict.items()    # returns list of key-value tuples
+    
+    for keym value in dict.items()
+    
+    
+loop keywords
+    break
+        breaks out of loop
+    continue
+        breaks out of current loop iteration
+        continues with loop
+        
+Dunder methods
+    methods with double underscores surrounding it
+    
+    
+iteratables
+    __iter__
+        returns iterator object for given module
+        stores currrent position in iteratable object
+    __next__
+        returns next value in iterator
+        throws StopIteration exception when reaches end of list
+        
+    
+    # These are the same!!!!  
+    
+    i_nums = iter(nums)
+    while True:
+        try:
+            item = next(i_nums)
+            print(item)
+        except StopIteration:
+            break
+       
+    for num in nums:
+        print(num)
+    
+    
+    class MyRange:
+        def __init__(self, start, end)
+            self.value = start
+            self.end = end
+            
+        def __iter__(self):         # For this class to be an iterable, __iter__ must return
+            return self             # an object with the __next__ function implemented
+        
+        def __next__(self):
+            if self.value >= self.end:
+                raise StopIteration
+            current = self.value
+            self.value += 1
+            return current
+    
+    nums = MyRange(1, 10)
+    
+    
+    # does the same thing as ^
+    def my_range(start, end):
+        current = start
+        while current < end:
+            yield current
+            current += 1
+    
+    
+    for num in nums:
+        print(num)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+     
+     
+     
