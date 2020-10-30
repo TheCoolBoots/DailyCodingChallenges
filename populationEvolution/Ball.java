@@ -1,12 +1,9 @@
 package populationEvolution;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
-import javax.swing.JPanel;
 
 
-public class Ball extends JPanel {
+
+public class Ball{
 
     public final int brainSize = 1000; 
     public final double maxSpeed = 3.0;
@@ -37,15 +34,7 @@ public class Ball extends JPanel {
         this.acceleration = new double[2];
         this.acceleration[x] = 0.0;
         this.acceleration[y] = 0.0;
-        this.setBackground(new Color(0, 0, 0, 0));
-    }
-
-
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-
-        g.setColor(Color.RED);
-        g.fillOval(this.position[x] - radius, this.position[y]- radius, radius*2, radius*2);
+        
     }
 
     public void move(){

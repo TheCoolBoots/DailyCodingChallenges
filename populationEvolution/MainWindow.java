@@ -7,26 +7,22 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 
-class test extends JPanel {
+class MainWindow extends JPanel {
 
+    private static final long serialVersionUID = 1L;
     private Vector<Ball> balls;
-    static Ball myBall0;
-    static Ball myBall1;
     static JFrame frame;
-    // static Population pop;
+    static Population pop;
 
     public static void main(String[] args) {
-        // pop = new Population(20);
-        myBall0 = new Ball();
-        myBall1 = new Ball();
+        pop = new Population(20);
         frame = new JFrame("Evolution is Real!");
         frame.setBackground(Color.GRAY);
         frame.setSize(800, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(myBall0, BorderLayout.CENTER);
-        frame.getContentPane().add(myBall1, BorderLayout.CENTER);
+        frame.getContentPane().add(pop, BorderLayout.CENTER);
 
-        // pop.addToFrame(frame);
+
         frame.setVisible(true);
         while (true) {
             update();
@@ -34,9 +30,8 @@ class test extends JPanel {
     }
 
     private static void update() {
-        // pop.update();
-        myBall0.update();
-        myBall1.update();
+        pop.update();
+
         frame.repaint();
         try {
             Thread.sleep(4, 0);
