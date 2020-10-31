@@ -1,17 +1,7 @@
 package populationEvolution;
-
-
-
+import populationEvolution.Constants;
 
 public class Ball{
-
-    public final int brainSize = 1000; 
-    public final double maxSpeed = 3.0;
-    public final int maxEdge = 800;
-    public final int minEdge = 0;
-
-    public final int x = 0;
-    public final int y = 1;
 
     private static final long serialVersionUID = 7507425470242757620L;
     int[] position;
@@ -21,59 +11,87 @@ public class Ball{
     Brain brain;
     int step = 0;
     boolean dead = false;
+    double fitness;
+    boolean hitGoal = false;
 
 
     public Ball(){
-        this.brain = new Brain(brainSize);
+        this.brain = new Brain(Constants.brainSize);
         this.position = new int[2];
-        this.position[x] = 800 / 2;
-        this.position[y] = 800 / 2;
+        this.position[Constants.x] = 400;
+        this.position[Constants.y] = 750;
         this.velocity = new double[2];
-        this.velocity[x] = 0.0;
-        this.velocity[y] = 0.0;
+        this.velocity[Constants.x] = 0.0;
+        this.velocity[Constants.y] = 0.0;
         this.acceleration = new double[2];
-        this.acceleration[x] = 0.0;
-        this.acceleration[y] = 0.0;
+        this.acceleration[Constants.x] = 0.0;
+        this.acceleration[Constants.y] = 0.0;
         
     }
 
     public void move(){
         if(!dead){
-            if(this.step > brain.directions.size() - 1){
-                step = 0;
+
+            acceleration[Constants.x] = brain.directions.get(step % Constants.brainSize).get(0);
+            acceleration[Constants.y] = brain.directions.get(step % Constants.brainSize).get(1);
+
+            velocity[Constants.x] += acceleration[Constants.x];
+            velocity[Constants.y] += acceleration[Constants.y];
+
+            if(Math.abs(velocity[Constants.x]) > Constants.maxSpeed){
+                if(velocity[Constants.x] < 0)
+                    velocity[Constants.x] = -Constants.maxSpeed;
+                else
+                    velocity[Constants.x] = Constants.maxSpeed;
             }
 
-            acceleration[x] = brain.directions.get(step).get(0);
-            acceleration[y] = brain.directions.get(step).get(1);
-
-            velocity[x] += acceleration[x];
-            velocity[y] += acceleration[y];
-
-            if(Math.abs(velocity[x]) > maxSpeed){
-                if(velocity[x] < 0)
-                    velocity[x] = -maxSpeed;
+            if(Math.abs(velocity[Constants.y]) > Constants.maxSpeed){
+                if(velocity[Constants.y] < 0)
+                    velocity[Constants.y] = -Constants.maxSpeed;
                 else
-                    velocity[x] = maxSpeed;
-            }
-
-            if(Math.abs(velocity[y]) > maxSpeed){
-                if(velocity[y] < 0)
-                    velocity[y] = -maxSpeed;
-                else
-                    velocity[y] = maxSpeed;
+                    velocity[Constants.y] = Constants.maxSpeed;
             }
             
-            position[x] += (int) velocity[x];
-            position[y] += (int) velocity[y];
+            position[Constants.x] += (int) velocity[Constants.x];
+            position[Constants.y] += (int) velocity[Constants.y];
             this.step += 1;
         }
     }
 
     public void update(){
         this.move();
-        if(this.position[x] > maxEdge || this.position[x] < minEdge || this.position[y] > maxEdge || this.position[y] < minEdge){
+        if(this.position[Constants.x] > Constants.maxEdge || this.position[Constants.x] < Constants.minEdge || 
+                this.position[Constants.y] > Constants.maxEdge || this.position[Constants.y] < Constants.minEdge || 
+                hitGoal() || step >= Constants.brainSize){
             this.dead = true;
         }
+    }
+
+    public boolean hitGoal(){
+        if(Math.abs(this.position[Constants.x] - Constants.goalX) <= 5 &&
+            Math.abs(this.position[Constants.y] - Constants.goalY) <= 5){
+                this.hitGoal = true;
+                return true; 
+        }
+        return false;
+    }
+
+    public void calculateFitness(){
+        if(this.hitGoal){
+            this.fitness = 1.0/(step + step);
+        } else {
+            double distanceToGoal = Math.sqrt(Math.pow(this.position[Constants.x] - Constants.goalX, 2)
+                    + Math.pow(this.position[Constants.y] - Constants.goalY, 2));
+            System.out.println(distanceToGoal);
+            this.fitness = 1.0/(distanceToGoal * distanceToGoal * (step + step));
+        }
+    }
+
+    public Ball getBaby(){
+        Brain newBrain = brain.clone();
+        Ball newBall = new Ball();
+        newBall.brain = newBrain;
+        return newBall;
     }
 
 }

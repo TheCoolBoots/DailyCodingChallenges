@@ -22,9 +22,23 @@ public class Brain {
         }
     }
 
-    // public static void main(String[] args){
-    //     Brain b = new Brain(10);
-    //     System.out.println(b.directions);
-    // }
+    public Brain clone(){
+        Brain newBrain = new Brain(size);
+        newBrain.directions = (ArrayList<ArrayList<Double>>) directions.clone();
+        return newBrain;
+    }
+
+    public void mutate(){
+        for(int i = 0; i < directions.size(); i++){
+            double rand = Math.random();
+            if(rand < Constants.mutationRate){
+                ArrayList<Double> randomDirection = new ArrayList<Double>(2);
+                double angle = Math.random() * 2 * Math.PI;
+                randomDirection.add(Math.sin(angle));
+                randomDirection.add(Math.cos(angle));
+                directions.set(i, randomDirection);
+            }
+        }
+    }
 }
 
