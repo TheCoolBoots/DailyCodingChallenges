@@ -16,7 +16,7 @@ Arguments
             print(args)
             print(kwargs)
 
-        studet_info('James', 'Potter', age = 51, child = 'Harry')
+        student_info('James', 'Potter', age = 51, child = 'Harry')
         '''
 
         prints:
@@ -149,7 +149,7 @@ Lists
 dictionaries
     key value pairs
     dict.get([key])                     # returns None when key doesnt exist
-    dict.get([key], 'default value')    # returns given value when key doesnt exist
+    dict.get([key], 'default value')    # returns default value when key doesnt exist
         
     dict.update([update dictionary])
         makes all changes contained in update dictionary
@@ -161,7 +161,7 @@ dictionaries
     dict.keys()     # returns list of keys
     dict.items()    # returns list of key-value tuples
     
-    for keym value in dict.items()
+    for key, value in dict.items()
     
     
 loop keywords
@@ -227,7 +227,12 @@ iteratables
     for num in nums:
         print(num)
         
-        
+
+Typed python:
+
+    def funName(varName : String, var2Name : List) -> String:
+        pass
+
         
         
         
